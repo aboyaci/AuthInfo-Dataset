@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite the paper below."
+title: "AuthInfo-Dataset"
+type: dataset
+authors:
+  - family-names: "Güven"
+    given-names: "Ebu Yusuf"
+  - family-names: "Boyacı"
+    given-names: "Ali"
+    orcid: "https://orcid.org/0000-0002-2553-1911"
+  - family-names: "Aydın"
+    given-names: "Muhammed Ali"
+repository-code: "https://github.com/istec-iuc/AuthInfo-Dataset"
+keywords:
+  - passwords
+  - password policy
+  - breached data
+  - authentication
+  - security
+preferred-citation:
+  type: article
+  title: "A novel password policy focusing on altering user password selection habits: A statistical analysis on breached data"
+  authors:
+    - family-names: "Güven"
+      given-names: "Ebu Yusuf"
+    - family-names: "Boyacı"
+      given-names: "Ali"
+      orcid: "https://orcid.org/0000-0002-2553-1911"
+    - family-names: "Aydın"
+      given-names: "Muhammed Ali"
+  journal: "Computers & Security"
+  volume: 113
+  start: 102560
+  year: 2022
+  doi: "10.1016/j.cose.2021.102560"
