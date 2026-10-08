@@ -1,68 +1,60 @@
-# AuthInfo-Dataset: Authentication Information Dataset
+# AuthInfo-Dataset
 
-In this repository, you will find a Leaked User Authentication Information Dataset. It contains username (hashed), password pairs, and other features for analysis and visualizations. We use AuthInfo-Dataset for user password selection behaviors.
+Username–password pairs drawn from eight leaked online-service breaches, with per-password structural features. Usernames are anonymized; passwords are kept as-is so their composition can be studied.
 
-## AuthInfo-Dataset Source
+This is the dataset behind:
 
-AuthInfo-Dataset creates from eight different data sources that leaked from online services. Dataset data collection phase is shown in **Figure 1**. Please review the article for details. 
-[https://doi.org/10.1016/j.cose.2021.102560](https://doi.org/10.1016/j.cose.2021.102560)
+> E. Y. Güven, **A. Boyacı**, M. A. Aydın. *A novel password policy focusing on altering user password selection habits: A statistical analysis on breached data.* **Computers & Security**, vol. 113, 102560, 2022. [doi:10.1016/j.cose.2021.102560](https://doi.org/10.1016/j.cose.2021.102560)
 
-![Data Gathering Work Flow](figures/dataGathering.jpg)
+The paper analyzes more than ten million pairs to find which composition habits actually make passwords guessable. It then proposes a behavior-based policy aimed at those habits, rather than generic "one uppercase, one digit" rules.
 
-*Figure 1. Data Gathering Work Flow*
+## What's here
 
-## AuthInfo-Dataset Feature
+| Path | Contents |
+|---|---|
+| `AuthInfo-Dataset.csv` | A **5-row sample** showing the format |
+| `figures/` | Data-gathering workflow diagram |
+| [Full dataset (Google Drive)](https://drive.google.com/drive/folders/1ufsv8_PMTT36h3M5rXjKRr8P6BauYkDN?usp=sharing) | The complete data used in the paper |
 
-AuthInfo Dataset properties are extracted from username and password pairs. These features are seen in **Table 1**.
+## Schema
 
-*Tabel.1 AuthInfo-Dataset Features*
+| Column | Meaning | Example |
+|---|---|---|
+| `id` | Row number | `1` |
+| `username` | Salted hash of the original username (32 hex chars) | `6dd3122b97…` |
+| `password` | Password as leaked | `hamoo4248423` |
+| `lenght` | Password length *(column name typo kept for compatibility)* | `12` |
+| `typeofchar` | Character classes present: `l` lower, `u` upper, `d` digit, `s` special | `dl` |
+| `source` | Breach the pair came from | `Crossfire.txt` |
+| `firstchar` | Class of the first character | `l` |
+| `countl` / `countu` / `countd` / `counts` | Count of lower / upper / digit / special characters | `5` / `0` / `7` / `0` |
+| `mask` | Password with each character replaced by its class | `lllllddddddd` |
 
-| **Feature **		| **Explanation**						| **Sample**			|
-|-------------------|---------------------------------------|-----------------------|
-| AnonId			| Username hashed with salt				| 7CA2871... CD22FD40 	|
-| Password			| Password								| Try34 				|
-| Length			| Number of password’s character 		| 6 					|
-| Type of Char		| Types of characters in the password 	| dlsu 					|
-| Source			| Data source alias 					| 1. Data Source 		|
-| Mask				| The mask obtained by replacing each character in the password with the character type sign																		| ulldds 	|
-| Type of First Char 		| Password start character type 				| u 		|
-| Type of End Char 			| Password last character type 					| s 		|
-| Number of Lower Case 		| Number of lowercase letters in the password 	| 2			|
-| Number of Upper Case 		| Number of capital letters in the password 	| 1			|
-| Number of Special Char 	| Number of special characters in the password 	| 1			|
-| Number of Decimal 		| Number of digits in the password 				| 2			|
+## Loading it
 
+```python
+import pandas as pd
 
-## Full Dataset
+df = pd.read_csv("AuthInfo-Dataset.csv", skipinitialspace=True)
+df.groupby("typeofchar")["lenght"].describe()
+```
 
-The full datasets used in our paper can be found by following this [Google Drive Access Link](https://drive.google.com/drive/folders/1ufsv8_PMTT36h3M5rXjKRr8P6BauYkDN?usp=sharing)
+## Ethics & use
 
+Every password here was already public through breaches. Usernames are hashed to break the link to individuals. Use the data for research on password security and policy, and don't attempt to re-identify users.
 
-# A Novel Password Policy Focusing on Altering User Password Selection Habits: A Statistical Analysis on Breached Data
+## Citation
 
-by Ebu Yusuf GÜVEN, Ali BOYACI, Muhammed Ali AYDIN
+```bibtex
+@article{guven2022novel,
+  title   = {A novel password policy focusing on altering user password selection habits: A statistical analysis on breached data},
+  author  = {G{\"u}ven, Ebu Yusuf and Boyac{\i}, Ali and Ayd{\i}n, Muhammed Ali},
+  journal = {Computers \& Security},
+  volume  = {113},
+  pages   = {102560},
+  year    = {2022},
+  doi     = {10.1016/j.cose.2021.102560}
+}
+```
 
-
-## Abstract
-
-> Online services generally employ password-based systems to enable users to access personal/private content. These services also force their users to change their passwords periodically under specific policies to increase security. However, analysis of breached data reveals that current policies do not consider user password selection habits and pose critical security and privacy concerns. Additionally, when passwords are leaked, attackers have the opportunity to study - and possibly identify - the structure or pattern of the user password selection set. This way, attackers could predict the next password or reduce the search space considerably in their attacks. Therefore, this study proposes a novel behavior-based password policy to increase the present security level and avoid further exploitations if a breach occurs. This study uses statistical methods and visualization techniques to examine the password selection behaviors of over ten million UserID-password pairs collected from anonymously shared data breaches. The data set is anonymized while keeping the uniqueness of userID-password pairs and shared with other researchers along with extracted features. Results show that user password selection patterns can be generalized and used to increase the success rate of attacks.
-
-## Citations
-
-If you use the dataset, please cite the following paper:
-
-``
-	@article{GUVEN2022102560,
-	title = {A Novel Password Policy Focusing on Altering User Password Selection Habits: A Statistical Analysis on Breached Data},
-	journal = {Computers & Security},
-	volume = {113},
-	pages = {102560},
-	year = {2022},
-	issn = {0167-4048},
-	doi = {https://doi.org/10.1016/j.cose.2021.102560},
-	url = {https://www.sciencedirect.com/science/article/pii/S0167404821003849},
-	author = {Ebu Yusuf Güven and Ali Boyaci and Muhammed Ali Aydin}
-	}
-``
-
-> GÜVEN, Ebu Yusuf; BOYACI, Ali; AYDIN, Muhammed Ali. A Novel Password Policy Focusing on Altering User Password Selection Habits: A Statistical Analysis on Breached Data. Computers & Security, 2022, 113: 102560.
+Originally published by [istec-iuc](https://github.com/istec-iuc/AuthInfo-Dataset).
